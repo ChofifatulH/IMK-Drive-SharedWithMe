@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive Prototype</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom Scrollbar mirip Google Drive */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #444746;
+            /* Warna scrollbar thumb */
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #585b5d;
+        }
+    </style>
+</head>
+
+<body class="bg-[#1b1d1e] font-sans overflow-hidden text-[#e3e3e3]">
+
+    <div class="flex h-screen w-full">
+
+        <!-- Left Sidebar -->
+        <aside class="w-[256px] flex flex-col flex-shrink-0 pt-2 pb-4">
+            <div class="px-6 mb-4 mt-2">
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="text-[22px] text-[#e3e3e3] font-normal tracking-tight">Drive</span>
+                </div>
+
+                <button
+                    class="flex items-center gap-3 bg-[#e3e3e3] rounded-[16px] pr-6 pl-4 py-4 hover:brightness-90 transition-all min-w-[100px] h-14 shadow-md">
+                    <i data-lucide="plus" class="text-[#1b1d1e] w-6 h-6"></i>
+                    <span class="text-[14px] font-medium text-[#1b1d1e]">New</span>
+                </button>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto space-y-0.5 custom-scrollbar">
+                <!-- Sidebar Item: Home -->
+                <div
+                    class="flex items-center px-4 py-1.5 mx-3 rounded-full cursor-pointer text-sm font-medium transition-colors mb-0.5 text-[#e3e3e3] hover:bg-[#28292c]">
+                    <div class="w-2"></div>
+                    <i data-lucide="home" class="mr-4 text-[#c4c7c5] w-5 h-5"></i>
+                    <span class="flex-1 truncate">Home</span>
+                </div>
+
+                <!-- Sidebar Item: Activity -->
+                <div
+                    class="flex items-center px-4 py-1.5 mx-3 rounded-full cursor-pointer text-sm font-medium transition-colors mb-0.5 text-[#e3e3e3] hover:bg-[#28292c]">
+                    <div class="w-2"></div>
+                    <i data-lucide="activity" class="mr-4 text-[#c4c7c5] w-5 h-5"></i>
+                    <span class="flex-1 truncate">Activity</span>
+                </div>
+
+                <!-- Sidebar Item: Workspaces -->
+                <div
+                    class="flex items-center px-4 py-1.5 mx-3 rounded-full cursor-pointer text-sm font-medium transition-colors mb-0.5 text-[#e3e3e3] hover:bg-[#28292c]">
+                    <div class="w-2"></div>
+                    <i data-lucide="briefcase" class="mr-4 text-[#c4c7c5] w-5 h-5"></i>
+                    <span class="flex-1 truncate">Workspaces</span>
+                </div>
+
+                <div class="my-2">
+                    <!-- Sidebar Item: My Drive (With Arrow) -->
+                    <div
+                        class="flex items-center px-4 py-1.5 mx-3 rounded-full cursor-pointer text-sm font-medium transition-colors mb-0.5 text-[#e3e3e3] hover:bg-[#28292c]">
+                        <div class="w-4 mr-2"><i data-lucide="arrow-down" class="-rotate-90 text-gray-400 w-3 h-3"></i>
+                        </div>
+                        <i data-lucide="hard-drive" class="mr-4 text-[#c4c7c5] w-5 h-5"></i>
+                        <span class="flex-1 truncate">My Drive</span>
+                    </div>
+                </div>
+
+                <!-- Sidebar Item: Shared with me (Active) -->
+                <div
+                    class="flex items-center px-4 py-1.5 mx-3 rounded-full cursor-pointer text-sm font-medium transition-colors mb-0.5 bg-[#004a77] text-[#c2e7ff]">
+                    <div class="w-2"></div>
+                    <i data-lucide="users" class="mr-4 text-[#c2e7ff] w-5 h-5"></i>
+                    <span class="flex-1 truncate">Shared with me</span>
+                </div>
+
+                <div
+                    class="flex items-center px-4 py-1.5 mx-3 rounded-full cursor-pointer text-sm font-medium transition-colors mb-0.5 text-[#e3e3e3] hover:bg-[#28292c]">
+                    <div class="w-2"></div>
+                    <i data-lucide="clock" class="mr-4 text-[#c4c7c5] w-5 h-5"></i>
+                    <span class="flex-1 truncate">Recent</span>
+                </div>
+
+                <div
+                    class="flex items-center px-4 py-1.5 mx-3 rounded-full cursor-pointer text-sm font-medium transition-colors mb-0.5 text-[#e3e3e3] hover:bg-[#28292c]">
+                    <div class="w-2"></div>
+                    <i data-lucide="star" class="mr-4 text-[#c4c7c5] w-5 h-5"></i>
+                    <span class="flex-1 truncate">Starred</span>
+                </div>
+
+                <div class="h-4"></div>
+
+                <div
+                    class="flex items-center px-4 py-1.5 mx-3 rounded-full cursor-pointer text-sm font-medium transition-colors mb-0.5 text-[#e3e3e3] hover:bg-[#28292c]">
+                    <div class="w-2"></div>
+                    <i data-lucide="alert-circle" class="mr-4 text-[#c4c7c5] w-5 h-5"></i>
+                    <span class="flex-1 truncate">Spam</span>
+                </div>
+
+                <div
+                    class="flex items-center px-4 py-1.5 mx-3 rounded-full cursor-pointer text-sm font-medium transition-colors mb-0.5 text-[#e3e3e3] hover:bg-[#28292c]">
+                    <div class="w-2"></div>
+                    <i data-lucide="trash-2" class="mr-4 text-[#c4c7c5] w-5 h-5"></i>
+                    <span class="flex-1 truncate">Trash</span>
+                </div>
+
+                <div
+                    class="flex items-center px-4 py-1.5 mx-3 rounded-full cursor-pointer text-sm font-medium transition-colors mb-0.5 text-[#e3e3e3] hover:bg-[#28292c]">
+                    <div class="w-2"></div>
+                    <i data-lucide="cloud" class="mr-4 text-[#c4c7c5] w-5 h-5"></i>
+                    <span class="flex-1 truncate">Storage</span>
+                </div>
+
+                <div class="px-7 mt-4">
+                    <div class="w-full bg-[#444746] rounded-full h-1 mt-2 mb-2">
+                        <div class="bg-[#a8c7fa] h-1 rounded-full w-[10%]"></div>
+                    </div>
+                    <p class="text-[12px] text-[#c4c7c5]">4.72 GB of 50 GB used</p>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main
+            class="flex-1 flex flex-col bg-[#131314] rounded-tl-2xl rounded-bl-2xl overflow-hidden mx-2 my-2 relative">
+            <div class="absolute inset-0 bg-[#131314] rounded-[24px] overflow-hidden flex flex-col">
+
+                <!-- Header -->
+                <header class="h-16 flex items-center justify-between px-4 py-2 bg-[#131314] flex-shrink-0">
+                    <div class="flex-1 max-w-3xl ml-2">
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i data-lucide="search" class="text-[#c4c7c5] w-5 h-5"></i>
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Search in Drive"
+                                oninput="handleSearch(this.value)"
+                                class="block w-full pl-12 pr-12 py-[10px] bg-[#28292c] border-none rounded-full leading-5
+                                    text-[#e3e3e3] placeholder-[#c4c7c5] focus:outline-none focus:bg-[#313235]
+                                    transition-all text-[16px]">
+                            <div id="search-results"
+                                class="absolute top-full mt-2 w-full bg-[#1b1d1e] border border-[#444746]
+                                        rounded-xl shadow-lg z-50 hidden max-h-96 overflow-y-auto custom-scrollbar">
+                            </div>
+                            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                <i data-lucide="list" class="text-[#c4c7c5] w-5 h-5"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-1 ml-4 text-[#c4c7c5]">
+                        <button class="p-3 rounded-full hover:bg-[#28292c]"><i data-lucide="help-circle"
+                                class="w-6 h-6"></i></button>
+                        <button class="p-3 rounded-full hover:bg-[#28292c]"><i data-lucide="settings"
+                                class="w-6 h-6"></i></button>
+                        <button class="p-3 rounded-full hover:bg-[#28292c]"><i data-lucide="grip"
+                                class="w-6 h-6"></i></button>
+                        <div
+                            class="ml-2 w-8 h-8 rounded-full bg-blue-400 flex items-center justify-center overflow-hidden border border-gray-600">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User">
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Content Area -->
+                <div class="flex-1 flex flex-col overflow-hidden bg-[#131314] px-4">
+                    <!-- Fixed Toolbar Area -->
+                    <div class="flex-shrink-0">
+                        <!-- Title & Toolbar -->
+                        <div class="flex items-center justify-between px-2 pt-2 pb-4">
+                            <h1 class="text-[24px] text-[#e3e3e3] font-normal">Shared with me</h1>
+                            <div class="flex items-center gap-2">
+                                <div class="flex bg-[#28292c] rounded-full p-0.5 border border-[#444746]">
+                                    <button class="p-1.5 px-3 rounded-full bg-[#004a77] text-[#c2e7ff]"><i
+                                            data-lucide="check-square" class="w-4 h-4"></i></button>
+                                    <button class="p-1.5 px-3 rounded-full hover:bg-[#313235] text-[#c4c7c5]"><i
+                                            data-lucide="layout-grid" class="w-4 h-4"></i></button>
+                                </div>
+                                <button class="p-2 hover:bg-[#28292c] rounded-full text-[#c4c7c5]"><i data-lucide="info"
+                                        class="w-5 h-5"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Filter Chips -->
+                        <div class="flex items-center gap-2 px-2 pb-2">
+                            <button
+                                class="px-3 py-[6px] border border-[#444746] rounded-[8px] text-sm text-[#e3e3e3] hover:bg-[#28292c] flex items-center gap-2 transition-colors bg-transparent">
+                                By Type <i data-lucide="chevron-down" class="text-[#c4c7c5] w-3.5 h-3.5"></i>
+                            </button>
+                            <button
+                                class="px-3 py-[6px] border border-[#444746] rounded-[8px] text-sm text-[#e3e3e3] hover:bg-[#28292c] flex items-center gap-2 transition-colors bg-transparent">
+                                By Owner <i data-lucide="chevron-down" class="text-[#c4c7c5] w-3.5 h-3.5"></i>
+                            </button>
+                            <button
+                                class="px-3 py-[6px] border border-[#444746] rounded-[8px] text-sm text-[#e3e3e3] hover:bg-[#28292c] flex items-center gap-2 transition-colors bg-transparent">
+                                By Tag <i data-lucide="chevron-down" class="text-[#c4c7c5] w-3.5 h-3.5"></i>
+                            </button>
+                            <button
+                                class="px-3 py-[6px] border border-[#444746] rounded-[8px] text-sm text-[#e3e3e3] hover:bg-[#28292c] flex items-center gap-2 transition-colors bg-transparent">
+                                By Date <i data-lucide="chevron-down" class="text-[#c4c7c5] w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Scrollable List Area -->
+                    <div class="flex-1 overflow-y-auto custom-scrollbar mt-2">
+
+                        <!-- Pinned Section -->
+                        <div id="pinned-section" class="px-2 mb-6">
+                            <div
+                                class="flex items-center gap-2 text-[#e3e3e3] mb-3 cursor-pointer hover:bg-[#28292c] w-fit px-2 py-1 rounded">
+                                <h2 class="text-[16px] font-medium">Pinned</h2>
+                                <i data-lucide="chevron-down" class="w-[18px] h-[18px]"></i>
+                            </div>
+
+                            <div class="flex gap-4 overflow-x-auto pb-2">
+                                <!-- Pinned Item 1 -->
+                                <div
+                                    class="bg-[#1b1d1e] border border-[#444746] rounded-xl p-4 w-64 flex flex-col gap-3 hover:bg-[#28292c] transition-colors cursor-pointer group relative flex-shrink-0">
+                                    <div class="flex justify-between items-start">
+                                        <div class="w-10 h-8 rounded bg-red-400 opacity-80"></div>
+                                        <button
+                                            class="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-[#3c4043] rounded-full text-[#c4c7c5]">
+                                            <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-[#e3e3e3] text-sm font-medium truncate mb-1">Presentasi Final
+                                        </h3>
+                                        <p class="text-[#c4c7c5] text-xs truncate">Created by Me | Kuliah</p>
+                                        <p class="text-[#8e918f] text-[10px] mt-2">20 Des 2024</p>
+                                    </div>
+                                    <div class="absolute top-2 left-2">
+                                        <i data-lucide="pin" class="text-[#e3e3e3] fill-[#e3e3e3] w-3 h-3"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Pinned Item 2 -->
+                                <div
+                                    class="bg-[#1b1d1e] border border-[#444746] rounded-xl p-4 w-64 flex flex-col gap-3 hover:bg-[#28292c] transition-colors cursor-pointer group relative flex-shrink-0">
+                                    <div class="flex justify-between items-start">
+                                        <div class="w-10 h-8 rounded bg-red-400 opacity-80"></div>
+                                        <button
+                                            class="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-[#3c4043] rounded-full text-[#c4c7c5]">
+                                            <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-[#e3e3e3] text-sm font-medium truncate mb-1">Semester 7</h3>
+                                        <p class="text-[#c4c7c5] text-xs truncate">Created by Bintang | 12 Files</p>
+                                        <p class="text-[#8e918f] text-[10px] mt-2">20 Des 2024</p>
+                                    </div>
+                                    <div class="absolute top-2 left-2">
+                                        <i data-lucide="pin" class="text-[#e3e3e3] fill-[#e3e3e3] w-3 h-3"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Smart Folders Section -->
+                        <div id="smart-folder-section" class="px-2 mb-6"></div>
+
+
+                        <!-- All Files Section -->
+                        <div class="px-2 mb-2 mt-4">
+                            <h2 class="text-[20px] font-medium text-[#e3e3e3] mb-2 px-2">All Files</h2>
+                        </div>
+
+                        <!-- Table Container -->
+                        <div class="min-w-[800px]">
+                            <!-- Table Header with Sort Logic -->
+                            <div
+                                class="grid grid-cols-12 px-4 py-2 border-b border-[#444746] text-sm font-medium text-[#c4c7c5] bg-[#131314] sticky top-0 z-10 select-none">
+                                <div onclick="sortFiles('name')"
+                                    class="col-span-4 pl-2 flex items-center gap-1 cursor-pointer hover:text-white transition-colors group">
+                                    File Name <i id="sort-icon-name" data-lucide="arrow-up"
+                                        class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100"></i>
+                                </div>
+                                <div onclick="sortFiles('type')"
+                                    class="col-span-2 flex items-center gap-1 cursor-pointer hover:text-white transition-colors group">
+                                    Type <i id="sort-icon-type" data-lucide="arrow-up"
+                                        class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100"></i>
+                                </div>
+                                <div onclick="sortFiles('owner')"
+                                    class="col-span-2 flex items-center gap-1 cursor-pointer hover:text-white transition-colors group">
+                                    Owner <i id="sort-icon-owner" data-lucide="arrow-up"
+                                        class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100"></i>
+                                </div>
+                                <div onclick="sortFiles('tags')"
+                                    class="col-span-2 flex items-center gap-1 cursor-pointer hover:text-white transition-colors group">
+                                    Tags <i id="sort-icon-tags" data-lucide="arrow-up"
+                                        class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100"></i>
+                                </div>
+                                <div onclick="sortFiles('date')"
+                                    class="col-span-2 pl-2 flex items-center gap-1 cursor-pointer hover:text-white transition-colors group">
+                                    Date <i id="sort-icon-date" data-lucide="arrow-up"
+                                        class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100"></i>
+                                </div>
+                            </div>
+
+                            <!-- File List -->
+                            <div id="file-list-body" class="pb-10">
+                                <!-- Injected by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    </div>
+    </div>
+    </div>
+    </main>
+
+    </div>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+
+
+
+        // Data Dummy
+        const ALL_FILES = [
+            { id: 1, name: "LAMPIRAN HIBAH MBKM 2025", type: "Folder", owner: "kemahasiswaan", tags: ["UKT 2025"], date: "2024-12-19 12:22", isFolder: true, pinned: false },
+            { id: 2, name: "Natal 2025", type: "Folder", owner: "panitia.natal", tags: ["Event", "2025"], date: "2024-12-07 09:00", isFolder: true, pinned: false },
+            { id: 3, name: "Modul_Kuliah_5.pdf", type: "PDF", owner: "Dosen A", tags: ["Kuliah"], date: "2024-12-05 14:30", isFolder: false, pinned: false },
+            { id: 4, name: "Poster Acara.jpg", type: "JPG", owner: "Emma", tags: ["Organisasi"], date: "2024-12-18 10:15", isFolder: false, pinned: false },
+            { id: 5, name: "Submit kelas E", type: "Folder", owner: "rini.anggraini", tags: ["Tugas"], date: "2024-10-26 11:00", isFolder: true, starred: true, pinned: false },
+            { id: 6, name: "Laporan Keuangan.xlsx", type: "XLSX", owner: "Budi", tags: ["Kantor"], date: "2024-11-20 16:45", isFolder: false, pinned: false },
+            { id: 7, name: "Draft Skripsi Final.docx", type: "DOCX", owner: "Me", tags: ["Kuliah"], date: "2024-12-15 20:00", isFolder: false, pinned: false },
+            { id: 8, name: "Video Dokumentasi.mp4", type: "MP4", owner: "Media", tags: ["Event"], date: "2024-12-01 13:20", isFolder: false, pinned: false },
+        ];
+
+        const FOLDER_CONTENTS = {
+            1: [
+                { id: 101, name: "Dokumen_Persyaratan.pdf", type: "PDF", owner: "kemahasiswaan", tags: ["UKT"], date: "2024-12-18 08:00", isFolder: false },
+                { id: 102, name: "Data_Mahasiswa_Penerima.csv", type: "CSV", owner: "kemahasiswaan", tags: ["Data"], date: "2024-12-19 10:00", isFolder: false }
+            ],
+            2: [
+                { id: 201, name: "Rundown_Acara.pdf", type: "PDF", owner: "panitia.natal", tags: ["Planning"], date: "2024-12-06 17:00", isFolder: false },
+                { id: 202, name: "Anggaran_Biaya.xlsx", type: "XLSX", owner: "Bendahara", tags: ["Finance"], date: "2024-12-05 11:00", isFolder: false }
+            ],
+            5: [
+                { id: 501, name: "Tugas_Minggu_1.pdf", type: "PDF", owner: "Mhs 1", tags: ["Tugas"], date: "2024-10-25 08:00", isFolder: false },
+                { id: 502, name: "Tugas_Minggu_2.pdf", type: "PDF", owner: "Mhs 2", tags: ["Tugas"], date: "2024-10-26 09:00", isFolder: false }
+            ]
+        };
+
+        const SMART_FOLDERS = [
+            {
+                id: 1001,
+                name: "Basis Data",
+                owner: "Google Drive",
+                tags: ["Kuliah"],
+                date: "2024-11-20",
+                systemGenerated: true,
+                hidden: false
+            },
+            {
+                id: 1002,
+                name: "Folder KKN",
+                owner: "Google Drive",
+                tags: ["KKN"],
+                date: "2024-12-23",
+                systemGenerated: true,
+                hidden: false
+            }
+        ];
+
+
+        const ORIGINAL_ORDER = [...ALL_FILES];
+
+        let currentFiles = [...ALL_FILES];
+        let currentSort = {
+            key: null,   // null = no sort
+            dir: 0       // 0 = none, 1 = asc, -1 = desc
+        };
+        let currentView = 'shared'; // 'shared' or 'folder'
+        let currentFolderName = '';
+        let searchQuery = '';
+
+        function renderFiles() {
+            const listBody = document.getElementById('file-list-body');
+            listBody.innerHTML = '';
+
+            let filesToRender = [...currentFiles];
+
+            if (currentSort.key && currentSort.dir !== 0) {
+                filesToRender.sort((a, b) => {
+                    let valA = a[currentSort.key];
+                    let valB = b[currentSort.key];
+
+                    if (Array.isArray(valA)) valA = valA.join('');
+                    if (Array.isArray(valB)) valB = valB.join('');
+
+                    if (valA > valB) return currentSort.dir;
+                    if (valA < valB) return -currentSort.dir;
+                    return 0;
+                });
+            }
+
+
+            filesToRender.forEach(file => {
+                const row = document.createElement('div');
+                row.className = "file-row group grid grid-cols-12 items-center px-4 py-2.5 border-b border-[#28292c] hover:bg-[#28292c] cursor-default transition-colors";
+
+                // Icon selection
+                let iconHtml = '<i data-lucide="file-text" class="text-blue-400 w-5 h-5"></i>';
+                if (file.isFolder) iconHtml = '<i data-lucide="folder" class="text-[#444746] fill-[#444746] w-5 h-5"></i>';
+                else if (file.type === 'JPG') iconHtml = '<i data-lucide="image" class="text-red-400 w-5 h-5"></i>';
+                else if (file.type === 'MP4') iconHtml = '<i data-lucide="video" class="text-purple-400 w-5 h-5"></i>';
+
+                row.innerHTML = `
+                    <div class="col-span-4 flex items-center gap-3 pl-2 overflow-hidden pr-4">
+                        <div class="flex-shrink-0">${iconHtml}</div>
+                        <span class="text-[14px] truncate flex-1 text-[#e3e3e3] ${file.isFolder ? 'hover:underline cursor-pointer' : ''}" 
+                              onclick="${file.isFolder ? `openFolder(${file.id}, '${file.name}')` : ''}">
+                            ${file.name}
+                        </span>
+                        ${file.starred ? '<i data-lucide="star" class="text-[#c4c7c5] fill-[#c4c7c5] w-3 h-3"></i>' : ''}
+                    </div>
+                    <div class="col-span-2 text-[13px] text-[#c4c7c5]">${file.type}</div>
+                    <div class="col-span-2 text-[13px] text-[#e3e3e3] truncate">${file.owner}</div>
+                    <div class="col-span-2 flex gap-2 flex-wrap">
+                        ${file.tags.map(tag => `
+                            <span class="flex items-center gap-1 bg-[#444746] px-2 py-0.5 rounded-full
+                                        text-[11px] text-[#e3e3e3] border border-[#585b5d]">
+                                ${tag}
+                                <button onclick="removeTag(${file.id}, '${tag}')"
+                                    class="hover:text-red-400 text-[#c4c7c5]">
+                                    ×
+                                </button>
+                            </span>
+                        `).join('')}
+
+                        <button onclick="showTagInput(${file.id}, this)"
+                            class="text-[11px] px-2 py-0.5 border border-dashed border-[#585b5d]
+                                rounded-full text-[#c4c7c5] hover:bg-[#3c4043]">
+                            + Tag
+                        </button>
+                    </div>
+
+                    <div class="col-span-2 text-[13px] text-[#c4c7c5] pl-2 flex justify-between items-center">
+                        <span>${formatDate(file.date)}</span>
+                        <button onclick="togglePin(${file.id})"
+                            class="opacity-0 group-hover:opacity-100 p-1 hover:bg-[#3c4043] rounded-full transition-opacity">
+                            <i data-lucide="pin"
+                                class="w-4 h-4 ${file.pinned ? 'fill-[#c4c7c5] text-[#c4c7c5]' : 'text-[#c4c7c5]'}">
+                            </i>
+                        </button>
+                    </div>
+                `;
+                listBody.appendChild(row);
+            });
+            lucide.createIcons();
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            if (date.toDateString() === now.toDateString()) return "Today";
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        function sortFiles(key) {
+            if (currentSort.key !== key) {
+                currentSort.key = key;
+                currentSort.dir = 1; // asc
+            } else {
+                if (currentSort.dir === 1) currentSort.dir = -1;       // desc
+                else if (currentSort.dir === -1) currentSort.dir = 0;  // reset
+                else currentSort.dir = 1;                              // asc lagi
+            }
+
+            // Reset icons
+            document.querySelectorAll('[id^="sort-icon-"]').forEach(icon => {
+                icon.classList.add('opacity-0');
+                icon.style.transform = 'rotate(0deg)';
+            });
+
+            if (currentSort.dir !== 0) {
+                const icon = document.getElementById(`sort-icon-${key}`);
+                icon.classList.remove('opacity-0');
+                icon.style.transform = currentSort.dir === 1 ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+
+            // Jika reset, kembalikan urutan awal
+            if (currentSort.dir === 0) {
+                currentFiles = currentView === 'shared'
+                    ? [...ORIGINAL_ORDER]
+                    : [...currentFiles];
+            }
+
+            renderFiles();
+        }
+
+
+        function openFolder(id, name) {
+            currentView = 'folder';
+            currentFolderName = name;
+            currentSort = { key: null, dir: 0 };
+
+            currentFiles = FOLDER_CONTENTS[id] || [];
+            updateHeaderUI();
+            renderFiles();
+        }
+
+        function navigateTo(view) {
+            if (view === 'shared') {
+                currentView = 'shared';
+                currentFiles = [...ALL_FILES];
+                document.getElementById('nav-shared').classList.add('bg-[#004a77]', 'text-[#c2e7ff]');
+                document.getElementById('nav-shared').classList.remove('text-[#e3e3e3]', 'hover:bg-[#28292c]');
+            }
+            updateHeaderUI();
+            renderFiles();
+        }
+
+        function updateHeaderUI() {
+            const titleContainer = document.getElementById('view-title-container');
+            const filterContainer = document.getElementById('filter-container');
+            const pinnedSection = document.getElementById('pinned-section');
+
+            if (currentView === 'shared') {
+                titleContainer.innerHTML = `<h1 class="text-[24px] text-[#e3e3e3] font-normal">Shared with me</h1>`;
+                filterContainer.style.display = 'flex';
+                pinnedSection.style.display = 'block';
+                // Render Pinned items if needed
+                pinnedSection.innerHTML = `
+                    <div class="flex items-center gap-2 text-[#e3e3e3] mb-3 cursor-pointer hover:bg-[#28292c] w-fit px-2 py-1 rounded">
+                        <h2 class="text-[16px] font-medium">Suggested</h2>
+                        <i data-lucide="chevron-down" class="w-[18px] h-[18px]"></i>
+                    </div>
+                    <div class="flex gap-4 overflow-x-auto pb-2">
+                        <div class="bg-[#1b1d1e] border border-[#444746] rounded-xl p-4 w-64 hover:bg-[#28292c] transition-colors cursor-pointer group flex-shrink-0">
+                            <div class="w-10 h-8 rounded bg-red-400 opacity-80 mb-3"></div>
+                            <h3 class="text-[#e3e3e3] text-sm font-medium truncate">Presentasi Final</h3>
+                            <p class="text-[#c4c7c5] text-xs">Shared by Bintang</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                titleContainer.innerHTML = `
+                    <button onclick="navigateTo('shared')" class="text-[20px] text-[#c4c7c5] hover:text-white transition-colors">Shared with me</button>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-[#c4c7c5]"></i>
+                    <h1 class="text-[20px] text-[#e3e3e3] font-normal">${currentFolderName}</h1>
+                `;
+                filterContainer.style.display = 'none';
+                pinnedSection.style.display = 'none';
+            }
+            lucide.createIcons();
+        }
+
+        function getFileIcon(file) {
+            if (file.isFolder) return '<i data-lucide="folder" class="text-[#444746] fill-[#444746] w-6 h-6"></i>';
+            if (file.type === 'JPG') return '<i data-lucide="image" class="text-red-400 w-6 h-6"></i>';
+            if (file.type === 'MP4') return '<i data-lucide="video" class="text-purple-400 w-6 h-6"></i>';
+            return '<i data-lucide="file-text" class="text-blue-400 w-6 h-6"></i>';
+        }
+
+        function fileCardTemplate(file) {
+            return `
+                <div
+                    class="bg-[#1b1d1e] border border-[#444746] rounded-xl p-4 w-64
+                        flex flex-col gap-3 hover:bg-[#28292c]
+                        transition-colors cursor-pointer group relative flex-shrink-0">
+
+                    <div class="flex justify-between items-start">
+                        ${getFileIcon(file)}
+                        <button onclick="togglePin(${file.id})"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity
+                                p-1 hover:bg-[#3c4043] rounded-full text-[#c4c7c5]">
+                            <i data-lucide="pin"
+                            class="w-4 h-4 ${file.pinned ? 'fill-[#e3e3e3] text-[#e3e3e3]' : 'text-[#c4c7c5]'}">
+                            </i>
+                        </button>
+                    </div>
+
+                    <div>
+                        <h3 class="text-[#e3e3e3] text-sm font-medium truncate mb-1">
+                            ${file.name}
+                        </h3>
+
+                        <p class="text-[#c4c7c5] text-xs truncate">
+                            Created by ${file.owner}
+                            ${file.tags?.length ? ` | ${file.tags.join(', ')}` : ''}
+                        </p>
+
+                        <p class="text-[#8e918f] text-[10px] mt-2">
+                            ${formatDate(file.date)}
+                        </p>
+                    </div>
+
+                    <div class="absolute top-2 left-2">
+                        <i data-lucide="pin" class="text-[#e3e3e3] fill-[#e3e3e3] w-3 h-3"></i>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        function renderPinned() {
+            const pinnedSection = document.getElementById('pinned-section');
+            const pinnedFiles = ALL_FILES.filter(f => f.pinned);
+
+            if (pinnedFiles.length === 0) {
+                pinnedSection.innerHTML = '';
+                return;
+            }
+
+            pinnedSection.innerHTML = `
+                <div class="flex items-center gap-2 text-[#e3e3e3] mb-3 cursor-pointer
+                            hover:bg-[#28292c] w-fit px-2 py-1 rounded">
+                    <h2 class="text-[16px] font-medium">Pinned</h2>
+                    <i data-lucide="chevron-down" class="w-[18px] h-[18px]"></i>
+                </div>
+                <div class="flex gap-4 overflow-x-auto pb-2">
+                    ${pinnedFiles.map(fileCardTemplate).join('')}
+                </div>
+            `;
+
+            lucide.createIcons();
+        }
+
+        function togglePin(id) {
+            const file = ALL_FILES.find(f => f.id === id);
+            if (!file) return;
+
+            file.pinned = !file.pinned;
+
+            currentFiles = currentFiles.map(f =>
+                f.id === id ? { ...f, pinned: file.pinned } : f
+            );
+
+            renderPinned();
+            renderFiles();
+        }
+
+        function removeRecommendation(id) {
+            const folder = SMART_FOLDERS.find(f => f.id === id);
+            if (!folder) return;
+
+            folder.hidden = true;
+            renderSmartFolders();
+        }
+
+        function renderSmartFolderCard(folder) {
+            return `
+                <div
+                    class="bg-[#1b1d1e] border border-[#444746] rounded-xl p-4 w-64
+                        flex flex-col gap-3 hover:bg-[#28292c]
+                        transition-colors cursor-pointer group relative flex-shrink-0">
+
+                    <div class="flex justify-between items-start">
+                        <i data-lucide="folder" class="text-[#444746] fill-[#444746] w-6 h-6"></i>
+
+                        <div class="relative">
+                            <button
+                                class="opacity-0 group-hover:opacity-100 p-1 hover:bg-[#3c4043]
+                                    rounded-full text-[#c4c7c5]">
+                                <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                            </button>
+
+                            <div
+                                class="absolute right-0 mt-1 hidden group-hover:block
+                                    bg-[#28292c] border border-[#444746]
+                                    rounded-md text-sm z-20">
+                                <button
+                                    onclick="removeRecommendation(${folder.id})"
+                                    class="block px-3 py-2 hover:bg-[#3c4043]
+                                        text-[#e3e3e3] whitespace-nowrap">
+                                    Remove recommendation
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-[#e3e3e3] text-sm font-medium truncate mb-1">
+                            ${folder.name}
+                        </h3>
+                        <p class="text-[#c4c7c5] text-xs truncate">
+                            Created by ${folder.owner}
+                        </p>
+                        <p class="text-[#8e918f] text-[10px] mt-2">
+                            ${formatDate(folder.date)}
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        function renderSmartFolders() {
+            const container = document.getElementById('smart-folder-section');
+            const visibleFolders = SMART_FOLDERS.filter(f => !f.hidden);
+
+            if (visibleFolders.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = `
+                <div
+                    class="flex items-center gap-2 text-[#e3e3e3] mb-3 cursor-pointer
+                        hover:bg-[#28292c] w-fit px-2 py-1 rounded">
+                    <h2 class="text-[16px] font-medium">Smart Folders</h2>
+                    <i data-lucide="chevron-down" class="w-[18px] h-[18px]"></i>
+                </div>
+
+                <div class="flex gap-4 overflow-x-auto pb-2">
+                    ${visibleFolders.map(renderSmartFolderCard).join('')}
+                </div>
+            `;
+
+            lucide.createIcons();
+        }
+
+        function addTag(fileId, tag) {
+            if (!tag.trim()) return;
+
+            const file = ALL_FILES.find(f => f.id === fileId);
+            if (!file) return;
+
+            if (!file.tags.includes(tag)) {
+                file.tags.push(tag);
+            }
+
+            syncCurrentFiles(fileId);
+        }
+
+        function removeTag(fileId, tag) {
+            const file = ALL_FILES.find(f => f.id === fileId);
+            if (!file) return;
+
+            file.tags = file.tags.filter(t => t !== tag);
+
+            syncCurrentFiles(fileId);
+        }
+
+        function syncCurrentFiles(fileId) {
+            currentFiles = currentFiles.map(f =>
+                f.id === fileId ? { ...f, tags: [...ALL_FILES.find(x => x.id === fileId).tags] } : f
+            );
+
+            renderPinned();
+            renderFiles();
+        }
+
+        function promptAddTag(fileId) {
+            const tag = prompt("Add tag:");
+            if (tag) addTag(fileId, tag);
+        }
+
+        function showTagInput(fileId, btn) {
+            if (btn.dataset.open === "1") return;
+            btn.dataset.open = "1";
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = "New tag";
+            input.className =
+                "bg-[#131314] border border-[#585b5d] rounded-full px-2 py-0.5 " +
+                "text-[11px] text-[#e3e3e3] outline-none w-20";
+
+            btn.replaceWith(input);
+            input.focus();
+
+            input.addEventListener("keydown", e => {
+                if (e.key === "Enter") {
+                    const val = input.value.trim();
+                    if (val) addTag(fileId, val);
+                }
+                if (e.key === "Escape") renderFiles();
+            });
+
+            input.addEventListener("blur", () => {
+                renderFiles();
+            });
+        }
+
+        function handleSearch(value) {
+            const panel = document.getElementById('search-results');
+            searchQuery = value.toLowerCase().trim();
+
+            if (!searchQuery) {
+                panel.classList.add('hidden');
+                panel.innerHTML = '';
+                return;
+            }
+
+            const results = ALL_FILES.filter(file => {
+                const nameMatch = file.name.toLowerCase().includes(searchQuery);
+                const ownerMatch = file.owner.toLowerCase().includes(searchQuery);
+                const tagMatch = file.tags?.some(tag =>
+                    tag.toLowerCase().includes(searchQuery)
+                );
+                return nameMatch || ownerMatch || tagMatch;
+            });
+
+            renderSearchResults(results);
+        }
+
+        function renderSearchResults(results) {
+            const panel = document.getElementById('search-results');
+
+            if (results.length === 0) {
+                panel.innerHTML = `
+                    <div class="px-4 py-3 text-sm text-[#8e918f]">
+                        No results found
+                    </div>
+                `;
+                panel.classList.remove('hidden');
+                return;
+            }
+
+            panel.innerHTML = results.slice(0, 8).map(file => `
+                <div
+                    onclick="openFromSearch(${file.id})"
+                    class="flex items-center gap-3 px-4 py-2
+                        hover:bg-[#28292c] cursor-pointer transition-colors">
+
+                    ${getFileIcon(file)}
+
+                    <div class="flex-1 overflow-hidden">
+                        <p class="text-sm truncate text-[#e3e3e3]">${file.name}</p>
+                        <p class="text-xs truncate text-[#8e918f]">
+                            ${file.owner}${file.tags?.length ? ' • ' + file.tags.join(', ') : ''}
+                        </p>
+                    </div>
+                </div>
+            `).join('');
+
+            panel.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function openFromSearch(id) {
+            const panel = document.getElementById('search-results');
+            panel.classList.add('hidden');
+            panel.innerHTML = '';
+
+            const file = ALL_FILES.find(f => f.id === id);
+            if (!file) return;
+
+            if (file.isFolder) {
+                openFolder(file.id, file.name);
+            } else {
+                // Fokus ke file di list
+                currentFiles = [file];
+                renderFiles();
+            }
+        }
+
+        document.addEventListener('click', e => {
+            const panel = document.getElementById('search-results');
+            if (!e.target.closest('#search-results') &&
+                !e.target.closest('input[placeholder="Search in Drive"]')) {
+                panel.classList.add('hidden');
+            }
+        });
+
+
+        window.onload = () => {
+            renderPinned();
+            renderSmartFolders();
+            renderFiles();
+        };
+
+    </script>
+</body>
+
+</html>
